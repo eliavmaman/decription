@@ -376,6 +376,9 @@ angular.module('users').config([
     }).state('uploadDecription', {
       url: '/uploadDecription',
       templateUrl: 'modules/users/views/uploadDecription.client.view.html'
+    }).state('myDecription', {
+      url: '/myDecription',
+      templateUrl: 'modules/users/views/myDecription.client.view.html'
     }).state('reset', {
       url: '/password/reset/:token',
       templateUrl: 'modules/users/views/password/reset-password.client.view.html'
@@ -408,6 +411,28 @@ angular.module('users').controller('AuthenticationController', [
         $scope.authentication.user = response;
         // And redirect to the index page
         $location.path('/');
+      }).error(function (response) {
+        $scope.error = response.message;
+      });
+    };
+  }
+]);'use strict';
+angular.module('users').controller('MyDecriptionController', [
+  '$scope',
+  '$http',
+  '$location',
+  'Authentication',
+  '$timeout',
+  function ($scope, $http, $location, Authentication, $timeout) {
+    $scope.authentication = Authentication;
+    // If user is signed in then redirect back home
+    //   if ($scope.authentication.user) $location.path('/');
+    $scope.init = function () {
+      $scope.getUserDecription();
+    };
+    $scope.getUserDecription = function () {
+      $http.get('/decriptions', { params: { email: $scope.authentication.user.email } }).success(function (response) {
+        $scope.decriptions = response;
       }).error(function (response) {
         $scope.error = response.message;
       });
