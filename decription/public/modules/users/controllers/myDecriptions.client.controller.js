@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('users').controller('MyDecriptionController', ['$scope', '$http', '$location', 'Authentication', '$timeout',
+angular.module('users').controller('MyDecriptionController',
+          ['$scope', '$http', '$location', 'Authentication', '$timeout',
   function ($scope, $http, $location, Authentication, $timeout) {
     $scope.authentication = Authentication;
 
