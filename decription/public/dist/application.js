@@ -373,12 +373,6 @@ angular.module('users').config([
     }).state('reset-success', {
       url: '/password/reset/success',
       templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
-    }).state('uploadDecription', {
-      url: '/uploadDecription',
-      templateUrl: 'modules/users/views/uploadDecription.client.view.html'
-    }).state('myDecription', {
-      url: '/myDecription',
-      templateUrl: 'modules/users/views/myDecription.client.view.html'
     }).state('reset', {
       url: '/password/reset/:token',
       templateUrl: 'modules/users/views/password/reset-password.client.view.html'
@@ -416,29 +410,30 @@ angular.module('users').controller('AuthenticationController', [
       });
     };
   }
-]);'use strict';
-angular.module('users').controller('MyDecriptionController', [
-  '$scope',
-  '$http',
-  '$location',
-  'Authentication',
-  '$timeout',
-  function ($scope, $http, $location, Authentication, $timeout) {
-    $scope.authentication = Authentication;
-    // If user is signed in then redirect back home
-    //   if ($scope.authentication.user) $location.path('/');
-    $scope.init = function () {
-      $scope.getUserDecription();
-    };
-    $scope.getUserDecription = function () {
-      $http.get('/decriptions', { params: { email: $scope.authentication.user.email } }).success(function (response) {
-        $scope.decriptions = response;
-      }).error(function (response) {
-        $scope.error = response.message;
-      });
-    };
-  }
-]);'use strict';
+]);//'use strict';
+//
+//angular.module('users').controller('MyDecriptionController',
+//          ['$scope', '$http', '$location', 'Authentication', '$timeout',
+//  function ($scope, $http, $location, Authentication, $timeout) {
+//    $scope.authentication = Authentication;
+//
+//    // If user is signed in then redirect back home
+//    //   if ($scope.authentication.user) $location.path('/');
+//
+//    $scope.init = function () {
+//      $scope.getUserDecription();
+//    };
+//    $scope.getUserDecription = function () {
+//      $http.get('/decriptions', {params: {email: $scope.authentication.user.email}}).success(function (response) {
+//
+//        $scope.decriptions = response;
+//      }).error(function (response) {
+//        $scope.error = response.message;
+//      });
+//    };
+//  }
+//]);
+'use strict';
 angular.module('users').controller('PasswordController', [
   '$scope',
   '$stateParams',
@@ -539,51 +534,55 @@ angular.module('users').controller('SettingsController', [
       });
     };
   }
-]);'use strict';
-angular.module('users').controller('UploadDecriptionController', [
-  '$scope',
-  '$http',
-  '$location',
-  'Authentication',
-  '$timeout',
-  function ($scope, $http, $location, Authentication, $timeout) {
-    $scope.authentication = Authentication;
-    // If user is signed in then redirect back home
-    //   if ($scope.authentication.user) $location.path('/');
-    $scope.displaySucces = false;
-    $scope.credentials = {
-      languages: [],
-      s3OptionsUri: '/s3upload',
-      image: null
-    };
-    $scope.$watch('credentials.image', function (newValue, oldValue) {
-      if (newValue) {
-        $scope.newDecription.images.push(newValue);
-        $scope.credentials.image = null;
-      }
-    });
-    $scope.newDecription = {
-      name: '',
-      images: [],
-      email: ''
-    };
-    $scope.createDecription = function () {
-      $http.post('/decriptions', $scope.newDecription).success(function (response) {
-        $scope.displaySucces = true;
-        $scope.newDecription = {
-          name: '',
-          images: [],
-          email: ''
-        };
-        $timeout(function () {
-          $scope.displaySucces = false;
-        }, 2000);
-      }).error(function (response) {
-        $scope.error = response.message;
-      });
-    };
-  }
-]);'use strict';
+]);//'use strict';
+//
+//angular.module('users').controller('UploadDecriptionController',
+//          ['$scope', '$http', '$location', 'Authentication', '$timeout',
+//  function ($scope, $http, $location, Authentication, $timeout) {
+//    $scope.authentication = Authentication;
+//
+//    // If user is signed in then redirect back home
+//    //   if ($scope.authentication.user) $location.path('/');
+//    $scope.displaySucces = false;
+//    $scope.credentials = {
+//      languages: [],
+//      s3OptionsUri: '/s3upload',
+//      image: null
+//    };
+//
+//    $scope.$watch('credentials.image', function (newValue, oldValue) {
+//      if (newValue) {
+//        $scope.newDecription.images.push(newValue);
+//        $scope.credentials.image = null;
+//      }
+//    });
+//
+//    $scope.newDecription = {
+//      name: '',
+//      images: [],
+//      email: ''
+//    };
+//
+//    $scope.createDecription = function () {
+//      $http.post('/decriptions', $scope.newDecription).success(function (response) {
+//
+//        $scope.displaySucces = true;
+//        $scope.newDecription = {
+//          name: '',
+//          images: [],
+//          email: ''
+//        };
+//
+//        $timeout(function () {
+//          $scope.displaySucces = false;
+//        }, 2000);
+//      }).error(function (response) {
+//        $scope.error = response.message;
+//      });
+//    };
+//  }
+//]);
+'use strict';
 // Authentication service for user variables
 angular.module('users').factory('Authentication', [function () {
     var _this = this;
