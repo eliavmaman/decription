@@ -38,16 +38,16 @@ angular.module('users').config(['$stateProvider',
         templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
       }).
 
-      //state('uploadDecription', {
-      //  url: '/uploadDecription',
-      //  templateUrl: 'modules/users/views/uploadDecription.client.view.html',
-      //  //controller: 'UploadDecriptionController'
-      //}).
-      //state('myDecription', {
-      //  url: '/myDecription',
-      //  templateUrl: 'modules/users/views/myDecription.client.view.html',
-      //
-      //}).
+      state('uploadDecription', {
+        url: '/uploadDecription',
+        templateUrl: 'modules/users/views/uploadDecription.client.view.html',
+        //controller: 'UploadDecriptionController'
+      }).
+      state('myDecription', {
+        url: '/myDecription',
+        templateUrl: 'modules/users/views/myDecription.client.view.html',
+
+      }).
       state('reset', {
         url: '/password/reset/:token',
         templateUrl: 'modules/users/views/password/reset-password.client.view.html'
