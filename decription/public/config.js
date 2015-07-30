@@ -4,8 +4,16 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'decription';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap', 'ui.utils','ngS3upload'];
-
+	var applicationModuleVendorDependencies = ['ngResource',
+		'ngCookies',
+		'ngAnimate',
+		'ngTouch',
+		'ngSanitize',
+		'ui.router',
+		'ui.bootstrap',
+		'ui.utils'
+	];
+	//'ngS3upload'
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {
 		// Create angular module
