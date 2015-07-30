@@ -32,25 +32,6 @@ exports.read = function (req, res) {
 };
 
 
-//exports.add = function (req, res) {
-//  console.log('-------------------------');
-//  User.findById(req.params.userId)
-//    .exec(function (err, user) {
-//
-//      var decription = new Decription(req.body);
-//      decription.user = req.params.userId;
-//      decription.save(function (err, savedDecription) {
-//        user.decriptions.push(savedDecription);
-//        if (err) {
-//          res.status(400).send(err);
-//        } else {
-//          console.log('user review saved');
-//
-//          res.jsonp(savedDecription);
-//        }
-//      });
-//    });
-//};
 exports.add = function (req, res) {
   console.log('-------------------------');
   var decription = new Decription(req.body);

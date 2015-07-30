@@ -49,6 +49,8 @@ ApplicationConfiguration.registerModule('articles');'use strict';
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');'use strict';
 // Use Applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('uploadDecription');'use strict';
+// Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');'use strict';
 // Configuring the Articles module
 angular.module('articles').run([
@@ -156,7 +158,8 @@ angular.module('core').controller('HeaderController', [
   '$scope',
   'Authentication',
   'Menus',
-  function ($scope, Authentication, Menus) {
+  '$state',
+  function ($scope, Authentication, Menus, $state) {
     $scope.authentication = Authentication;
     $scope.isCollapsed = false;
     $scope.menu = Menus.getMenu('topbar');
@@ -167,6 +170,12 @@ angular.module('core').controller('HeaderController', [
     $scope.$on('$stateChangeSuccess', function () {
       $scope.isCollapsed = false;
     });
+    $scope.goToUpload = function () {
+      $state.go('uploadDecription');
+    };
+    $scope.goToMy = function () {
+      $state.go('myDecription');
+    };
   }
 ]);'use strict';
 angular.module('core').controller('HomeController', [
@@ -314,6 +323,86 @@ angular.module('core').service('Menus', [function () {
     //Adding the topbar menu
     this.addMenu('topbar');
   }]);'use strict';
+// Setting up route
+angular.module('uploadDecription').config([
+  '$stateProvider',
+  function ($stateProvider) {
+    // Users state routing
+    $stateProvider.state('uploadDecription', {
+      url: '/uploadDecription',
+      templateUrl: 'modules/uploadDecription/views/uploadDecription.client.view.html'
+    }).state('myDecription', {
+      url: '/myDecription',
+      templateUrl: 'modules/uploadDecription/views/myDecription.client.view.html'
+    });
+  }
+]);'use strict';
+angular.module('uploadDecription').controller('MyDecriptionController', [
+  '$scope',
+  '$http',
+  '$location',
+  'Authentication',
+  '$timeout',
+  function ($scope, $http, $location, Authentication, $timeout) {
+    $scope.authentication = Authentication;
+    // If user is signed in then redirect back home
+    //   if ($scope.authentication.user) $location.path('/');
+    $scope.init = function () {
+      $scope.getUserDecription();
+    };
+    $scope.getUserDecription = function () {
+      $http.get('/decriptions', { params: { email: $scope.authentication.user.email } }).success(function (response) {
+        $scope.decriptions = response;
+      }).error(function (response) {
+        $scope.error = response.message;
+      });
+    };
+  }
+]);'use strict';
+angular.module('uploadDecription').controller('UploadDecriptionController', [
+  '$scope',
+  '$http',
+  '$location',
+  'Authentication',
+  '$timeout',
+  function ($scope, $http, $location, Authentication, $timeout) {
+    $scope.authentication = Authentication;
+    // If user is signed in then redirect back home
+    //   if ($scope.authentication.user) $location.path('/');
+    $scope.displaySucces = false;
+    $scope.credentials = {
+      languages: [],
+      s3OptionsUri: '/s3upload',
+      image: null
+    };
+    $scope.$watch('credentials.image', function (newValue, oldValue) {
+      if (newValue) {
+        $scope.newDecription.images.push(newValue);
+        $scope.credentials.image = null;
+      }
+    });
+    $scope.newDecription = {
+      name: '',
+      images: [],
+      email: ''
+    };
+    $scope.createDecription = function () {
+      $http.post('/decriptions', $scope.newDecription).success(function (response) {
+        $scope.displaySucces = true;
+        $scope.newDecription = {
+          name: '',
+          images: [],
+          email: ''
+        };
+        $timeout(function () {
+          $scope.displaySucces = false;
+        }, 2000);
+      }).error(function (response) {
+        $scope.error = response.message;
+      });
+    };
+  }
+]);'use strict';
 // Config HTTP Error Handling
 angular.module('users').config([
   '$httpProvider',
